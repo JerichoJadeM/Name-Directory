@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.namedir.namedirectory.dao.PersonRepository;
 import com.namedir.namedirectory.entity.Person;
@@ -24,6 +25,7 @@ public class PersonServiceImpl implements PersonService{
     }
 
     @Override
+    @Transactional
     public Person save(Person person) {
 
         return personRepository.save(person);
@@ -46,6 +48,7 @@ public class PersonServiceImpl implements PersonService{
     }
 
     @Override
+    @Transactional
     public void deleteById(Integer id) {
         
         personRepository.deleteById(id);

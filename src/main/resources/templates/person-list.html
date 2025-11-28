@@ -7,6 +7,20 @@
     <link rel="stylesheet" th:href="@{/css/main.css}">
 </head>
 <body>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="navbar-brand">👥</div>
+            <div class="navbar-menu">
+                <ul class="navbar-nav">
+                    
+                </ul>
+            </div>
+            <form method="post" th:action="@{/logout}" class="navbar-logout">
+                <button type="submit" class="btn btn-danger-nav">🚪 Logout</button>
+            </form>
+        </div>
+    </nav>
+
     <div class="container">
         <header>
             <h1>👥 Person Directory</h1>
