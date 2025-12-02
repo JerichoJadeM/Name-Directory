@@ -21,13 +21,21 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
 
-        http.authorizeHttpRequests(configurer -> 
-            configurer.requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
+        http.authorizeHttpRequests(configurer -> configurer
+                    .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
                     .anyRequest().authenticated())
+
                     .formLogin(form -> form.loginPage("/login")
                     .loginProcessingUrl("/authenticateUser")
                     .defaultSuccessUrl("/persons/list", true)
                     .permitAll())
+
+                    .rememberMe(remember -> remember
+                        .tokenValiditySeconds(120)
+                        .key("myKey")
+                        .rememberMeParameter("rememberMe")
+                    )
+
                     .logout(logout -> logout.permitAll());
 
         return http.build();
