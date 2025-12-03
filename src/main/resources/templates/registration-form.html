@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Name Directory</title>
+    <link rel="stylesheet" th:href="@{/css/login.css}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📝 Register</h1>
+            <p>Create your Name Directory account</p>
+        </header>
+
+        <div class="content">
+            <div id="successAlert" class="alert alert-success"></div>
+            <div id="errorAlert" class="alert alert-error"></div>
+            <div id="warningAlert" class="alert alert-warning"></div>
+
+            <form th:action="@{/register/save}" method="post" th:object="${user}" onsubmit="return validateForm()">
+                <div th:if="${error}" class="alert alert-error">
+                    <p th:text="${error}"></p>
+                </div>
+                <!-- First Name and Last Name Fields -->
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="firstName">
+                            First Name
+                            <span class="required-asterisk">*</span>
+                        </label>
+                        <input type="text" id="firstName" name="firstName" placeholder="Enter your first name" required>
+                        <div class="error-message" id="firstNameError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="lastName">
+                            Last Name
+                            <span class="required-asterisk">*</span>
+                        </label>
+                        <input type="text" id="lastName" name="lastName" placeholder="Enter your last name" required>
+                        <div class="error-message" id="lastNameError"></div>
+                    </div>
+                </div>
+
+                <!-- Email Field -->
+                <div class="form-group">
+                    <label for="email">
+                        Email
+                        <span class="required-asterisk">*</span>
+                    </label>
+                    <input type="email" id="email" name="email" placeholder="Enter your email address" required>
+                    <div class="error-message" id="emailError"></div>
+                </div>
+
+                <!-- Username Field -->
+                <div class="form-group">
+                    <label for="username">
+                        Username
+                        <span class="required-asterisk">*</span>
+                    </label>
+                    <input type="text" id="username" name="username" placeholder="Choose a username" required>
+                    <div class="error-message" id="usernameError"></div>
+                </div>
+
+                <!-- Password Field -->
+                <div class="form-group">
+                    <label for="password">
+                        Password
+                        <span class="required-asterisk">*</span>
+                    </label>
+                    <input type="password" id="password" name="password" placeholder="Enter a strong password" required>
+                    <div class="error-message" id="passwordError"></div>
+                </div>
+
+                <!-- Confirm Password Field -->
+                <div class="form-group">
+                    <label for="confirmPassword">
+                        Confirm Password
+                        <span class="required-asterisk">*</span>
+                    </label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" required>
+                    <div class="error-message" id="confirmPasswordError"></div>
+                </div>
+
+                <!-- Form Actions -->
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">📝 Register</button>
+                </div>
+
+                <!-- Login Link -->
+                <div class="signup-link">
+                    Already have an account? <a th:href="@{/login}">Login here</a>
+                </div>
+            </form>
+        </div>
+
+        <footer>
+            <p>&copy; 2025 Name Directory. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script th:src="@{/js/forms.js}"></script>
+</body>
+</html>
