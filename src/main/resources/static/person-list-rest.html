@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Person Directory</title>
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="navbar-brand">👥</div>
+            <div class="navbar-menu">
+                <ul class="navbar-nav">
+                    
+                </ul>
+            </div>
+            <form method="post" th:action="@{/logout}" class="navbar-logout">
+                <button type="submit" class="btn btn-danger-nav">🚪 Logout</button>
+            </form>
+        </div>
+    </nav>
+
+    <div class="container">
+        <header>
+            <h1>👥 Person Directory</h1>
+            <p>Manage and view your personal directory</p>
+        </header>
+
+        <div class="actions">
+            <a th:href="@{/persons/new}" class="btn btn-primary">➕ Add New Person</a>
+            <form method="get" th:action="@{/persons/search}" class="search-form">
+                <input type="text" name="query" placeholder="🔍 Search by name or email..." class="search-input">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </form>
+        </div>
+
+        <div class="content">
+            <div id="successAlert" class="alert alert-success"></div>
+            <div id="errorAlert" class="alert alert-error"></div>
+
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Email</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="personsTableBody">
+                        
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="emptyState" style="display:none;" class="empty-state">
+                <h3>No Persons Found</h3>
+                <p>Your directory is currently empty. Start by adding a new person.</p>
+                <a th:href="@{/persons/new}" class="btn btn-primary">➕ Add New Person</a>
+            </div>
+        </div>
+
+        <footer>
+            <p>&copy; 2025 Name Directory. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script src="js/person-list.js"></script>
+    <script>
+       document.addEventListener("DOMContentLoaded", function() {
+            fetch("http://localhost:8080/api/persons/list")
+                .then(response => response.json())
+                .then(data => {
+                    const tableBody = document.getElementById("personsTableBody");
+                    const emptyDiv = document.getElementById("emptyState");
+
+                    if(data.length === 0){
+                        emptyDiv.style.display = "block";
+                        return;
+                    }
+
+                    data.forEach(person => {
+                        const row = `
+                            <tr>
+                               <td>${person.id}</td>
+                               <td>${person.firstName}</td>
+                               <td>${person.lastName}</td>
+                               <td>${person.email}</td>
+                               <td>
+                                <a href="/persons/update?personId=${person.id}" class="btn btn-edit">✏️ Update</a>
+                                <a href="/persons/delete?personId=${person.id}" class="btn btn-danger"
+                                onclick="return confirm('Are you sure?')">🗑️ Delete</a>
+                               </td>
+                            </tr>
+                        `;
+
+                        tableBody.innerHTML += row;
+                    });      
+                });
+       });
+    </script>
+
+</body>
+</html>
